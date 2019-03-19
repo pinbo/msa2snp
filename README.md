@@ -3,9 +3,11 @@ SNP and indel calls from multiple sequence alignment (MSA)
 
 I need to call SNPs in a multiple sequence alignment from several sanger sequencing sequences, but did not find a simple software that can do that, so I just wrote one.
 
+After you get the SNPs and their locations, then you can use another script [mysnpeffv2.py](https://github.com/pinbo/gene_manual_annotation) to check SNP effects.
+
 # Input
 
-The only input is the MSA file in a fasta format. You can prepare the alignment in many software, such as MEGA and Aliview. Then just same them as fasta format. Some format requirement.
+The only input is the MSA file in fasta format. You can prepare the alignment in many software, such as MEGA and Aliview. Then just save them in fasta format. Some format requirement:
 
 1. The first sequence is the reference.
 
