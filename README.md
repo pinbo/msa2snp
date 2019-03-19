@@ -7,13 +7,13 @@ After you get the SNPs and their locations, then you can use another script [mys
 
 # Input
 
-The only input is the MSA file in fasta format. You can prepare the alignment in many software, such as MEGA and Aliview. Then just save them in fasta format. Some format requirement:
+The only input is a MSA file in fasta format. You can prepare the alignment in many software, such as MEGA and Aliview. Then just save them in fasta format. Some format requirement:
 
 1. The first sequence is the reference.
 
 1. Make sure the alignment has flat ends, that is, equal length for all sequences.
 
-1. Make sure to no "-" in the beginning of the alignment, at least for the reference.
+1. Make sure no "-" in the beginning of the alignment, at least for the reference.
 
 # Usage
 
