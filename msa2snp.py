@@ -47,7 +47,7 @@ refseq = fasta[refid] # ref seq
 refseq_nogap = refseq.replace("-","")
 
 n = -1
-seq2 = {} # new dictionary of transformed sequences with no-gap postions as keys
+seq2 = {} # new dictionary of rotated sequences with no-gap postions as keys
 
 for i in range(len(refseq)): # i is the position of seq poition
 	if refseq[i] != "-":
@@ -60,10 +60,9 @@ for i in range(len(refseq)): # i is the position of seq poition
 		seq2[n] = templist
 	else:
 		seq2[n] = [s1 + s2 for s1, s2 in zip(seq2[n], templist)]
-	
 
 # output
-outlist = ["Pos\tRef\talt\t" + "\t".join(seqnames)]
+outlist = []
 
 for k in range(len(refseq_nogap)):
 	seq = [w.replace('-', '') if len(w) > 1 else w for w in seq2[k] ] # remove "-" in alleles in "A--"
@@ -72,9 +71,36 @@ for k in range(len(refseq_nogap)):
 		ref_allele = refseq_nogap[k] # string
 		alt_allele_set = alleles - set(ref_allele) # set
 		alt_allele = "/".join(alt_allele_set) # string
-		calls = "\t".join(seq) # SNP calls in each sequence
-		outlist.append("\t".join([str(k+1), ref_allele, alt_allele, calls]))
+		outlist.append([str(k+1), ref_allele, alt_allele] + seq) # K+1: starting from 1
 
-for i in outlist:
-	print i		
+# merge continuous deletions: ATTT to A---
+def allpos(alist, avalue):
+	return [pos for pos, element in enumerate(alist) if element == avalue]
+
+outlist2 = [["Pos", "Ref", "alt"] + seqnames] # merged continuous deletions
+mm = [] # temperary merging of lists
+n = 0 # the start position of continious deletion
+for i in range(len(outlist) - 1):
+	p1 = outlist[i]
+	p2 = outlist[i+1]
+	if int(p1[0]) + 1 == int(p2[0]) and "-" in p1 and "-" in p2 and allpos(p1, "-") == allpos(p2, "-"):
+		if mm: # if mm already have merged lists
+			mm = [s1 + s2 for s1, s2 in zip(mm, p1)]
+		else:
+			mm = p1
+			n = p1[0]
+	else:
+		if mm:
+			mm = [s1 + s2 for s1, s2 in zip(mm, p1)]
+			mm[0] = n
+			outlist2.append(["-" if "-" in w else w for w in mm]) # replace "-----" to "-"
+			mm = []
+		else:
+			outlist2.append(p1)
+		if i + 1 == len(outlist) - 1:
+			outlist2.append(p2)
+
+
+for i in outlist2:
+	print "\t".join(i)
 
