@@ -1,0 +1,39 @@
+<tool id="msa2snp" name="MSA to SNPs">
+  <description>Call SNPs/indels from multiple sequence alignment</description>
+  <command interpreter="python">msa2snp.py $msa > SNPs.txt</command>
+  
+  <inputs>
+    <param format="fasta" name="msa" type="data" label="multiple sequence alignment file in fasta format"/>
+  </inputs>
+
+  <outputs>
+      <data format="txt" name="output" from_work_dir="SNPs.txt" label="called_SNPs"/>
+  </outputs>
+
+  <help>
+
+**OVERVIEW**
+
+SNP and indel calls from multiple sequence alignment (MSA)
+
+I need to call SNPs in a multiple sequence alignment from several sanger sequencing sequences, but did not find a simple software that can do that, so I just wrote one.
+
+---
+
+**Input**
+
+The only input is a MSA file in fasta format. You can prepare the alignment in many software, such as MEGA and Aliview. Then just save them in fasta format. Some format requirement:
+
+1. The first sequence is the reference.
+
+2. Make sure the alignment has flat ends, that is, equal length for all sequences.
+
+3. Make sure no "-" in the beginning of the alignment, at least for the reference.
+
+---
+
+For more information go to : https://github.com/pinbo/msa2snp
+
+  </help>
+
+</tool>
