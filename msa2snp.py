@@ -102,5 +102,5 @@ for i in range(len(outlist) - 1):
 
 
 for i in outlist2:
-	print "\t".join(i)
+	print ("\t".join(i))
 
